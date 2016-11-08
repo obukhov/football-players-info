@@ -9,9 +9,10 @@ type idGenerator struct {
 	step    int
 }
 
-func (ig *idGenerator) Next() int {
-	current := ig.current
-	ig.current += ig.step
+func (ig *idGenerator) Current() int {
+	return ig.current
+}
 
-	return current
+func (ig *idGenerator) GenerateNext() {
+	ig.current += ig.step
 }
