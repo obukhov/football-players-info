@@ -1,4 +1,4 @@
-package main
+package multithread
 
 func NewIdGenerator(start, step int) *idGenerator {
 	return &idGenerator{start, step}

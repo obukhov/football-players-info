@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/obukhov/football-players-info/api"
+	"github.com/obukhov/football-players-info/multithread"
+	"time"
 	"log"
 )
 
@@ -10,8 +12,15 @@ func main() {
 	// init and run data processor
 	// format data
 
-	client := api.NewApiClient()
-	team, err := client.GetTeam(1)
+	reader := multithread.NewMultiThreadApiReader(api.NewApiClient())
+	reader.Start(3)
 
-	log.Println(team, err)
+	go func() {
+		for {
+			team := reader.Read()
+			log.Println(team)
+		}
+	}()
+
+	time.Sleep(time.Second)
 }
