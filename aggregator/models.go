@@ -25,6 +25,11 @@ type PlayersCollection struct {
 	playerNames []string
 }
 
+type PlayersCollectionInterface interface {
+	Add(name string, age int, teamName string)
+	Output(output io.Writer)
+}
+
 func (pc *PlayersCollection) Add(name string, age int, teamName string) {
 	if _, found := pc.players[name]; false == found {
 		pc.players[name] = &Player{

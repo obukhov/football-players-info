@@ -44,7 +44,7 @@ func getEnvConfig() (int, int) {
 
 	maxIdLimit, err := strconv.Atoi(os.Getenv("MAX_ID_LIMIT"))
 	if nil != err || maxIdLimit < 1 {
-		maxIdLimit = 500
+		maxIdLimit = 1000
 	}
 
 	return threads, maxIdLimit

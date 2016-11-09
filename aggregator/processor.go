@@ -9,7 +9,7 @@ func NewAggregator() *Aggregator {
 }
 
 type Aggregator struct {
-	playersCollection *PlayersCollection
+	playersCollection PlayersCollectionInterface
 }
 
 func (a *Aggregator) Process(team api.Team) {
@@ -18,6 +18,6 @@ func (a *Aggregator) Process(team api.Team) {
 	}
 }
 
-func (a *Aggregator) Collection() *PlayersCollection {
+func (a *Aggregator) Collection() PlayersCollectionInterface {
 	return a.playersCollection
 }
