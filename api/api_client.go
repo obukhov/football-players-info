@@ -1,8 +1,8 @@
 package api
 
 import (
-	"net/url"
 	"fmt"
+	"net/url"
 )
 
 const (
@@ -17,9 +17,9 @@ func NewApiClient() ApiClientInterface {
 	endpoint, _ := url.Parse("https://vintagemonster.onefootball.com")
 
 	return &apiClient{
-		endpoint:endpoint,
-		factory:buildTeamResponse,
-		client: &httpClient{},
+		endpoint: endpoint,
+		factory:  buildTeamResponse,
+		client:   &httpClient{},
 	}
 }
 

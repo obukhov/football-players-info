@@ -1,8 +1,8 @@
 package api
 
 import (
-	"net/url"
 	"net/http"
+	"net/url"
 )
 
 type httpClientInterface interface {

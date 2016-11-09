@@ -1,8 +1,8 @@
 package api
 
 import (
-	"io"
 	"encoding/json"
+	"io"
 )
 
 type teamResponseFactory func(body io.ReadCloser) (*TeamResponse, error)
