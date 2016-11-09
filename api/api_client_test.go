@@ -30,6 +30,7 @@ func TestApiClient_GetTeam(t *testing.T) {
 	httpClientMock.On("Get", expectedEndpoint).Return(
 		&http.Response{
 			Body: ioutil.NopCloser(bytes.NewBufferString(respString)),
+			StatusCode: 200,
 		},
 		nil,
 	)

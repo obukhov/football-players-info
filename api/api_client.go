@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -10,7 +11,7 @@ const (
 )
 
 type ApiClientInterface interface {
-	GetTeam(id int) (*Team, error)
+	GetTeam(id int) (*Team, *ApiError)
 }
 
 func NewApiClient() ApiClientInterface {
@@ -29,19 +30,46 @@ type apiClient struct {
 	client   httpClientInterface
 }
 
-func (ac *apiClient) GetTeam(id int) (*Team, error) {
+func (ac *apiClient) GetTeam(id int) (*Team, *ApiError) {
 	endpoint := *ac.endpoint
 	endpoint.Path = fmt.Sprintf(TEAM_PATH_TEMPLATE, id)
 
 	response, err := ac.client.Get(&endpoint)
 	if nil != err {
-		return nil, err
+		return nil, &ApiError{
+			error:       err,
+			recoverable: false,
+		}
 	}
 
-	teamResponse, err := ac.factory(response.Body)
-	if nil != err {
-		return nil, err
+	if response.StatusCode == http.StatusOK {
+		teamResponse, err := ac.factory(response.Body)
+		if nil != err {
+			return nil, &ApiError{
+				error:       err,
+				recoverable: true,
+			}
+		}
+
+		return teamResponse.Data.Team, nil
 	}
 
-	return teamResponse.Data.Team, nil
+	recovarable := false
+	if response.StatusCode >= http.StatusInternalServerError || response.StatusCode == http.StatusTooManyRequests {
+		recovarable = true
+	}
+
+	return nil, &ApiError{
+		error:       fmt.Errorf("Server returned wrong code %d", response.StatusCode),
+		recoverable: recovarable,
+	}
+}
+
+type ApiError struct {
+	error
+	recoverable bool
+}
+
+func (ae *ApiError) Recoverable() bool {
+	return ae.recoverable
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/obukhov/football-players-info/api"
 	"log"
 	"sync"
+	"time"
 )
 
 func NewMultiThreadApiReader(apiClient api.ApiClientInterface, threads int, maxIdLimit int) *multiThreadApiReader {
@@ -56,14 +57,21 @@ func (m *multiThreadApiReader) thread(gen *idGenerator, threadNum int, wg *sync.
 		default:
 			id := gen.Current()
 			team, err := m.apiClient.GetTeam(id)
-			if nil != err {
+
+			if nil == err {
+				m.results <- *team
+			} else {
 				log.Printf("Thread %d error %s fetching id %d", threadNum, err.Error(), id)
-				continue
 			}
 
-			m.results <- *team
-			if valid := gen.GenerateNext(); false == valid {
-				complete = true
+			if nil == err || false == err.Recoverable() {
+				if valid := gen.GenerateNext(); false == valid {
+					complete = true
+				}
+			}
+
+			if nil != err && err.Recoverable() {
+				time.Sleep(time.Second)
 			}
 		}
 	}
