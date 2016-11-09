@@ -1,11 +1,11 @@
 package aggregator
 
 import (
-	"testing"
 	"github.com/obukhov/football-players-info/api"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"io"
-	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 type PlayersCollectionMock struct {
@@ -28,16 +28,16 @@ func TestAggregator(t *testing.T) {
 	}
 
 	team := api.Team{
-		Id: 1,
+		Id:   1,
 		Name: "Hogwards",
 		Players: []api.Player{
 			{
-				Name:"Harry Potter",
-				Age: api.NewStringedInt(20),
+				Name: "Harry Potter",
+				Age:  api.NewStringedInt(20),
 			},
 			{
-				Name:"Hermione Granger",
-				Age: api.NewStringedInt(18),
+				Name: "Hermione Granger",
+				Age:  api.NewStringedInt(18),
 			},
 		},
 	}

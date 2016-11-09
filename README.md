@@ -47,3 +47,18 @@ environment variable, default is 1000.
 
 If one or more teams is not found then script do not output anything and 
 exit with code 1
+
+## Testing
+
+To run tests you need "testify" package installed:
+
+```
+go get github.com/stretchr/testify
+```
+
+To run tests:
+
+```
+go test ./...
+```
+
