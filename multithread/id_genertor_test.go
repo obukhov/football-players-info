@@ -1,8 +1,8 @@
 package multithread
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestIdGenerator_Current(t *testing.T) {

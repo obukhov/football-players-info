@@ -11,8 +11,8 @@ type Response struct {
 type TeamResponse struct {
 	Response
 	Data struct {
-		     Team *Team
-	     }
+		Team *Team
+	}
 }
 
 type Team struct {
@@ -46,8 +46,8 @@ func (s *StringedInt) Int() int {
 
 func (s *StringedInt) UnmarshalJSON(data []byte) error {
 	var stringValue string
-	if data[0] == '"' && data[len(data) - 1] == '"' {
-		stringValue = string(data[1 : len(data) - 1])
+	if data[0] == '"' && data[len(data)-1] == '"' {
+		stringValue = string(data[1 : len(data)-1])
 	} else {
 		stringValue = string(data)
 	}
